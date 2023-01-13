@@ -48,3 +48,9 @@ my_str_2 = str(my_list_1)
 print(my_str_1, type(my_str_1), id(my_str_1), sep='--')
 print(my_str_2, type(my_str_2), id(my_str_2), sep='--')
 # результат тот же - переменные имебт разные id
+# попытка преобразования в bool
+my_bool_1 = bool(my_list_1)
+my_bool_2 = bool(my_list_2)
+print(my_bool_1, type(my_bool_1), id(my_bool_1), sep='--')
+print(my_bool_2, type(my_bool_2), id(my_bool_2), sep='--')
+# Условие выполняется! УРА!
