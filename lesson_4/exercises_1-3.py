@@ -36,4 +36,15 @@ my_set1, my_set2 = {1, 2, 3, 4}, {1, 2, 3, 4}  # создаём 2 множест
 froz_my_set1 = frozenset(my_set1)  # изменяем их тип на замороженное множество
 froz_my_set2 = frozenset(my_set2)
 print(froz_my_set1, froz_my_set2)
-print(id(froz_my_set1), id(froz_my_set2))  # ситуация аналогична: переменные имеют разные id
+print(id(froz_my_set1), id(froz_my_set2), end='\n\n')  # ситуация аналогична: переменные имеют разные id
+
+# попробуем то-же с преобразованием списков из 1 элемента в str
+my_list_1 = ['1']
+my_list_2 = ['1']
+print(type(my_list_1), id(my_list_1))
+print(type(my_list_2), id(my_list_2))
+my_str_1 = str(my_list_1)
+my_str_2 = str(my_list_1)
+print(my_str_1, type(my_str_1), id(my_str_1), sep='--')
+print(my_str_2, type(my_str_2), id(my_str_2), sep='--')
+# результат тот же - переменные имебт разные id
