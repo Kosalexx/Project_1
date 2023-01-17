@@ -20,7 +20,7 @@ else:
     print('Оба числа меньше 10.')
 # проверку на not bool() вынес в отдельное ветвление и проверю оба числа
 if not bool(num_1) and not bool(num_2):
-    print('Оба числа равно нулю.')
+    print('Оба числа равны нулю.')
 elif not bool(num_1):
     print('Первое число равно нулю.')
 elif not bool(num_2):
