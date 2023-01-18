@@ -36,7 +36,7 @@ if ans.upper() == 'YES':  # цикл для изменения диапазон�
     end_range = is_digit(end_range)
     if start_range >= end_range:  # проверка больше ли конец диапазона чем его начало
         print('Конец заданного диапазона должен быть больше его начала!')
-        while start_range > end_range:
+        while start_range > end_range or start_range == end_range:
             end_range = input('Конец нового диапазона: ')
             end_range = is_digit(end_range)
 else:
