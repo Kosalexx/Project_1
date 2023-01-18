@@ -1,5 +1,5 @@
 def is_digit(num):  # проверка что введено именно число
-    if num.isdigit():  # проверяем что введено именно число
+    if str(num).isdigit():  # проверяем что введено именно число
         num = int(num)  # приводим число к int
         return num
     else:
@@ -29,12 +29,14 @@ while True:
             break
         elif 18 < age_2 <= 100:
             print(f'Что желаете, {name}.')
+            break
         else:
             print(f'{name}, вы лжете - в наше время столько не живут...')
+            break
     print('Хотите попробовать ещё раз?')
-    ask = input('"YES" - да / Любой другой символ - нет')
+    ask = input('"YES" - да / Любой другой символ - нет: ')
     if ask.upper() == 'YES':
         continue
     else:
-        print(f'Пока, {name}, приятно было познакомиться')
+        print(f'Пока, {name}, приятно было познакомиться!')
         break
