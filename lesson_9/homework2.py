@@ -23,7 +23,7 @@ def find_by_name(name: str) -> list:
                     "Symbol": row.get("Symbol"),
                     "Sector": row.get("Sector"),
                     "Stock Price": row.get("Price")
-                    }
+                }
                 )
     if len(answer) == 0:
         return "There aren't any companies that match the request."
@@ -46,7 +46,7 @@ def find_by_symbol(symbol: str) -> list:
                     "Symbol": row.get("Symbol"),
                     "Sector": row.get("Sector"),
                     "Stock Price": row.get("Price")
-                    }
+                }
                 )
     if len(final_list) == 0:
         return "There aren't any companies that match the request."
@@ -100,17 +100,11 @@ def top_ten_companies() -> list:
             price_1 = float(row.get('Price'))
             name_1 = row.get('Name')
             tuple_price = (name_1, price_1)
-            if len(final_list) == 0:
-                final_list.append(tuple_price)
-            else:
-                for ind in range(len(final_list)):
-                    if final_list[ind][1] <= price_1 and tuple_price not in \
-                            final_list:
-                        final_list.insert(ind, tuple_price)
-            if len(final_list) > 10:
-                final_list.pop()
+            final_list.append(tuple_price)
+        result_list = sorted(final_list, key=lambda price: price[1],
+                             reverse=True)
 
-    return final_list
+    return result_list[0:11]
 
 
 def maybe_stop() -> bool:

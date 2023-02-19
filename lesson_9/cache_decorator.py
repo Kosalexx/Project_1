@@ -1,8 +1,10 @@
 """ Decorator, that caches functions. """
 
+storage = {}
+
 
 def cache_deco(func):
-    storage = {}
+    global storage
 
     def inner(*args):
         if storage.get(str(args)) is None:
