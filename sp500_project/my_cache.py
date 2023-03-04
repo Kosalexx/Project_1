@@ -1,4 +1,4 @@
-""" Decorator, that caches functions """
+""" Decorator, that caches functions. """
 from time import time
 
 
