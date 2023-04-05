@@ -37,7 +37,7 @@ def validate_symbol_name(symbol_name: str) -> None:
         raise IncorrectSymbolError("Symbol already exist.")
 
 
-def validate_company_name(company_name) -> None:
+def validate_company_name(company_name: str) -> None:
     if len(company_name) < 3 or len(company_name) > 50:
         raise IncorrectNewCompanyNameError("The length of company name must "
                                            "be from 3 to 50 letters.")

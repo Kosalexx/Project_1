@@ -49,14 +49,14 @@ while True:
         print(result)
     elif user_choice == "3":
         sector_name = input('Enter name of sector: ')
-        result = companies_by_sector(sector_name, current_db_connector)
-        print(result)
+        res = companies_by_sector(sector_name, current_db_connector)
+        print(res)
     elif user_choice == "4":
-        result = calc_average_price(current_db_connector)
-        print(f'Average price: {result}')
+        result_price = calc_average_price(current_db_connector)
+        print(f'Average price: {result_price}')
     elif user_choice == "5":
-        result = top_ten_companies(current_db_connector)
-        print(result)
+        top_ten = top_ten_companies(current_db_connector)
+        print(top_ten)
     elif user_choice == "6":
         company_symbol = input('Enter Symbol of the company to be added: ')
         try:
