@@ -1,49 +1,52 @@
+from typing import Any, Optional, Self
+
+
 class IncorrectDataError(Exception):
     ...
 
 
 class Element(object):
-    def __init__(self, data) -> None:
+    def __init__(self, data: int) -> None:
         self.data = data
-        self.next_val = None
+        self.next_val: Optional[Self] = None
 
-    def _validate_data(self, data):
+    def _validate_data(self, data: int) -> None:
         if data not in range(1, 10000):
             raise IncorrectDataError("Data must be in range from 1 to 10000.")
 
     @property
-    def data(self):
+    def data(self) -> int:
         """Gets the value of data."""
         return self._data
 
-    @property
-    def next_val(self):
-        """Gets the value of next item of the Element."""
-        return self._next
-
     @data.setter
-    def data(self, value: int):
+    def data(self, value: int) -> None:
         """Sets the value of data."""
         self._validate_data(value)
         self._data = value
 
+    @property
+    def next_val(self) -> Optional[Self]:
+        """Gets the value of next item of the Element."""
+        return self._next
+
     @next_val.setter
-    def next_val(self, nextval):
+    def next_val(self, nextval: Optional[Self]) -> None:
         """Sets the value of next item of the Element."""
         self._next = nextval
 
     # Comparison methods
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: Any) -> bool:
         if not isinstance(other, Element):
             raise ValueError("The second object must be Element.")
         return self.data == other.data
 
-    def __gt__(self, other) -> bool:
+    def __gt__(self, other: Any) -> bool:
         if not isinstance(other, Element):
             raise ValueError("The second object must be Element.")
         return self.data > other.data
 
-    def __ge__(self, other) -> bool:
+    def __ge__(self, other: Any) -> bool:
         if not isinstance(other, Element):
             raise ValueError("The second object must be Element.")
         return self.data >= other.data
@@ -51,7 +54,7 @@ class Element(object):
 
 class LinkedList(object):
     def __init__(self) -> None:
-        self.head = None
+        self.head: Optional[Element] = None
 
     def __len__(self) -> int:
         cur_element = self.head
@@ -61,11 +64,11 @@ class LinkedList(object):
             cur_element = cur_element.next_val
         return counter
 
-    def __iter__(self):
+    def __iter__(self) -> Self:
         self.cur_el = self.head
         return self
 
-    def __next__(self):
+    def __next__(self) -> Optional[int]:
         if self.cur_el is None:
             raise StopIteration
         result = self.cur_el.data
@@ -79,14 +82,15 @@ class LinkedList(object):
         if self.head is None:
             self.head = new_element
             return
-        while cur_element.next_val is not None:
-            cur_element = cur_element.next_val
-        cur_element.next_val = new_element
+        if cur_element is not None:
+            while cur_element.next_val is not None:
+                cur_element = cur_element.next_val
+            cur_element.next_val = new_element
 
     def println(self) -> None:
         """Prints the value of LinkedList as a list."""
         cur_element = self.head
-        res_list = []
+        res_list: list = []
         while cur_element is not None:
             res_list.append(cur_element.data)
             cur_element = cur_element.next_val

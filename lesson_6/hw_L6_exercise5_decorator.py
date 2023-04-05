@@ -2,19 +2,21 @@
 Декоратор — это функция, которая позволяет обернуть другую функцию для
 расширения её функциональности без непосредственного изменения её кода.
 
- Для проверки работы декоратора используем функцию по нахождению
- факториала из задания 2 ДЗ."""
-
+Для проверки работы декоратора используем функцию по нахождению
+факториала из задания 2 ДЗ."""
 import random
+from time import sleep
+from typing import Callable, TypeVar, ParamSpec
 
 
-def robot_decorator(func):
+P = ParamSpec('P')
+RT = TypeVar('RT')
+
+
+def robot_decorator(func: Callable[P, RT]) -> Callable[P, RT]:
     """ Сам декоратор """
-    def wrapper(*args, **kwargs):
-        """ Обёртка.
-        "Декорируемая" функция, принимающая аргументы для своей работы
-         не будет работать без (*args, **kwargs) в "скобках" wrapper"""
-        from time import sleep
+    def wrapper(*args: P.args, **kwargs: P.kwargs) -> RT:
+        """ Обёртка."""
 
         print('Начинаю калибровку!')
         sleep(1)
@@ -22,7 +24,7 @@ def robot_decorator(func):
         sleep(0.3)
         print(f'Выполняю функцию: {func} ...')
         sleep(1)
-        result = func(*args, **kwargs)  # указывается *args, **kwargs
+        result = func(*args, **kwargs)
         print('Готово! Функция выполнена.')
         sleep(0.3)
         print('Работа завершена')
@@ -40,15 +42,7 @@ def factorial_num(n: int) -> int:
     return fact
 
 
-@robot_decorator
-def empty_function() -> None:
-    """ Написал эту функцию-пустышку для проверки работы декоратора в котором в функции-обёртке
-    в wrapper(*args, **kwargs) ожидаются аргументы *args и **kwargs."""
-    print('Функция без аргументов вызвана. ')
-
-
-num = random.randint(1, 15)  # генерируем случайное число
+num = random.randint(1, 15)
 fact_num = factorial_num(num)
-empty_function()
 
 print(f'Факториал числа {num} это: {fact_num}')

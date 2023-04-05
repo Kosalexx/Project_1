@@ -1,28 +1,31 @@
 """ Задание 4.
-Написать декоратор к двум любым функциям, который бы считал и выводил время их выполнения.
+Написать декоратор к двум любым функциям, который бы считал и
+выводил время их выполнения.
 """
-
 from time import time
 from random import randint
+from typing import TypeVar, ParamSpec, Callable
 
 
-def decorator_time(func):
+P = ParamSpec('P')
+RT = TypeVar('RT')
+
+
+def decorator_time(func: Callable[P, RT]) -> Callable[P, RT]:
     """ Выводит время, затраченное на выполнение переданной функции."""
 
-    def wrapper(*args, **kwargs):
+    def wrapper(*args: P.args, **kwargs: P.kwargs) -> RT:
         """ Обёртка. """
 
         print(f'Выполняем функцию {func.__name__}.')
         start = time()
         result_func = func(*args, **kwargs)
         end = time()
-        print(f'Время выполнения функции {func.__name__}: {end - start} секунд.', end='\n\n')
+        print(f'Время выполнения функции {func.__name__}: {end - start} '
+              f'секунд.', end='\n\n')
         return result_func
 
     return wrapper
-
-
-""" Для проверки работы нашего декоратора используем функции, написанные в предыдущих уроках."""
 
 
 @decorator_time
@@ -47,7 +50,7 @@ def fibonacci_number(n: int) -> int:
     return fib2
 
 
-num = randint(1, 50)  # генерируем случайное число
+num = randint(1, 50)
 fact_num = factorial_num(num)
 fib_num = fibonacci_number(num)
 

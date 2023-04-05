@@ -1,37 +1,53 @@
 from copy import deepcopy
+from typing import Any, TypedDict
+
+
+class BookTypes(TypedDict):
+    Name: str
+    Description: str
+    Pages: int
+    Author: str
+    Price: float
 
 
 class Book:
-    def __init__(self, name, description, pages, author, price) -> None:
+    def __init__(
+            self,
+            name: str,
+            description: str,
+            pages: int,
+            author: str,
+            price: float) -> None:
         self.name = name
         self.description = description
         self.pages = pages
         self.author = author
         self.price = price
 
-    def to_dict(self):
-        return {
+    def to_dict(self) -> BookTypes:
+        result: BookTypes = {
             "Name": self.name,
             "Description": self.description,
             "Pages": self.pages,
             "Author": self.author,
             "Price": self.price,
         }
+        return result
 
-    def contains_word(self, word) -> bool:
+    def contains_word(self, word: str) -> bool:
         return word in self.name
 
-    def __gt__(self, other) -> bool:
+    def __gt__(self, other: Any) -> bool:
         if not isinstance(other, Book):
             raise ValueError("The second object must be Book.")
         return self.pages > other.pages
 
-    def __ge__(self, other) -> bool:
+    def __ge__(self, other: Any) -> bool:
         if not isinstance(other, Book):
             raise ValueError("The second object must be Book.")
         return self.pages >= other.pages
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: Any) -> bool:
         if not isinstance(other, Book):
             raise ValueError("The second object must be Book.")
         return ((self.pages == other.pages) and
@@ -47,23 +63,24 @@ class EmptyLibraryError(Exception):
 
 class Library:
     def __init__(self) -> None:
-        self.books = []
+        self.books: list[Book] = []
 
-    def add_book(self, book) -> None:
+    def add_book(self, book: Book) -> None:
         self.books.append(book)
 
     def get_books(self) -> list:
         return [obj.to_dict() for obj in self.books]
 
-    def remove_book(self, book) -> None:
+    def remove_book(self, book: Book) -> None:
         return self.books.remove(book)
 
-    def find_the_biggest_book(self) -> dict:
+    def find_the_biggest_book(self) -> BookTypes:
         if len(self.books) == 0:
             raise EmptyLibraryError("The Library is empty.")
         books_copy = deepcopy(self.books)
         books_copy.sort(key=lambda el: el.pages, reverse=True)
-        return books_copy[0].to_dict()
+        result = books_copy[0].to_dict()
+        return result
 
     def __len__(self) -> int:
         return len(self.books)
