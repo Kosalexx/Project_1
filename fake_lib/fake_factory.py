@@ -1,21 +1,6 @@
 from errors import ProviderNameError
 from config import PROVIDERS
-from typing import Type, TypeVar
-from providers import (
-    EmailProvider,
-    PhoneProvider,
-    BankCardProvider,
-    NameProvider
-    )
-
-
-Providers = TypeVar(
-    'Providers',
-    EmailProvider,
-    BankCardProvider,
-    NameProvider,
-    PhoneProvider
-    )
+from typing import Callable, Self
 
 
 class FakeFactory:
@@ -48,12 +33,12 @@ class FakeFactory:
     """
     def __init__(
             self,
-            provider: Type[Providers],
+            provider: Callable[[], str],
             num: int) -> None:
         self.provider = provider
         self.num = num
 
-    def _validate_num(self, value):
+    def _validate_num(self, value: int) -> None:
         """Validates if the num is integer and  greater than zero.
 
         :param value: value of given to FakeFactory class 'num'
@@ -66,7 +51,7 @@ class FakeFactory:
         if value <= 0:
             raise ValueError('Number must be greater than 0.')
 
-    def _validate_provider(self, provider_name):
+    def _validate_provider(self, provider_name: object) -> None:
         """Validates if the provider_name is correct and exist in providers.py
 
         :param provider_name: name of given provider
@@ -75,41 +60,41 @@ class FakeFactory:
         :raises ProviderNameError: if provider_name is not correct and not
                                    exist in providers.py
         """
-        if not isinstance(provider_name, type):
+        if not isinstance(provider_name, object):
             raise ProviderNameError("Incorrect provider name.")
-        if provider_name.__name__ not in PROVIDERS:
+        if provider_name.__class__.__name__ not in PROVIDERS:
             raise ProviderNameError("Incorrect provider name.")
 
     @property
-    def num(self):
+    def num(self) -> int:
         return self._num
 
     @num.setter
-    def num(self, value: int):
+    def num(self, value: int) -> None:
         self._validate_num(value)
         self._num = value
 
     @property
-    def provider(self):
+    def provider(self) -> Callable[[], str]:
         return self._provider
 
     @provider.setter
-    def provider(self, provider_name: Type[Providers]):
+    def provider(self, provider_name: Callable[[], str]) -> None:
         self._validate_provider(provider_name)
         self._provider = provider_name
 
-    def __iter__(self):
+    def __iter__(self) -> Self:
         self.ind = 0
         return self
 
-    def __next__(self):
+    def __next__(self) -> str:
         if self.ind == len(self):
             raise StopIteration
         self.ind += 1
         result = self.generate()
         return result
 
-    def __len__(self):
+    def __len__(self) -> int:
         return self.num
 
     def generate(self) -> str:

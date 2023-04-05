@@ -1,7 +1,7 @@
-from typing import Any
 from random import choice, randint
 from datetime import datetime
 from providers_data import Generator
+from typing import Optional
 
 
 class EmailProvider:
@@ -9,8 +9,8 @@ class EmailProvider:
 
     Supported email-services are set in 'poss_services'.
     """
-    pattern = '{email}{poss_service}'
-    poss_services = [
+    pattern: str = '{email}{poss_service}'
+    poss_services: list[str] = [
         "@gmail.com",
         "@yandex.ru",
         "@ya.ru",
@@ -35,10 +35,10 @@ class EmailProvider:
 
     def __call__(
             self,
-            services: str = None,
-            length: int = None,
+            services: Optional[str] = None,
+            length: Optional[int] = None,
             include_digits: bool = True
-            ):
+            ) -> str:
         if services is None:
             services = choice(self.poss_services)
         if length is None:
@@ -58,8 +58,8 @@ class PhoneProvider:
 
     Supported country codes are set in 'poss_services'.
     """
-    pattern = '{country_code}{city_code}{phone}'
-    poss_services = [
+    pattern: str = '{country_code}{city_code}{phone}'
+    poss_services: list[str] = [
         "+375",
         "+374",
         "+7",
@@ -70,7 +70,7 @@ class PhoneProvider:
         "+48"
     ]
 
-    def __call__(self, *args: Any, **kwds: Any) -> Any:
+    def __call__(self) -> str:
         country_code = choice(self.poss_services)
         city_code = Generator().random_numbers(6-len(country_code))
         phone = Generator().random_digit_not_null()
@@ -89,9 +89,9 @@ class NameProvider:
     names and last names. These files will be used as databases for name
     generation.
     """
-    pattern = '{first_name} {last_name}'
+    pattern: str = '{first_name} {last_name}'
 
-    def __call__(self, *args: Any, **kwds: Any) -> Any:
+    def __call__(self) -> str:
         first_name_digit1 = Generator().random_uppercase_letter()
         last_name_digit1 = Generator().random_uppercase_letter()
         first_name = Generator().get_first_name(first_name_digit1)
@@ -111,8 +111,8 @@ class BankCardProvider:
         - system - payment system (Visa, MasterCard, etc.). Generated based on
         the supported services, which are specified in the 'poss_services'.
     """
-    pattern = '{card_number}, {EXP}, {CVC}, {card_holder}, {system}'
-    poss_services = {
+    pattern: str = '{card_number}, {EXP}, {CVC}, {card_holder}, {system}'
+    poss_services: dict[str, str] = {
         "2": "Мir",
         "30": "Diners Club",
         "36": "Diners Club",
@@ -139,7 +139,7 @@ class BankCardProvider:
     current_year = datetime.now().year
     current_month = datetime.now().month
 
-    def _generate_card_number_and_system(self):
+    def _generate_card_number_and_system(self) -> list[str]:
         """ Generate valid bankcard number."""
         card_number = choice(list(self.poss_services.keys()))
         system = self.poss_services[card_number]
@@ -147,9 +147,9 @@ class BankCardProvider:
         sum_of_digits = 0
         for ind, number in enumerate(card_number):
             if ind % 2 == 0:
-                number = int(number) * 2
-                if number > 9:
-                    number -= 9
+                num = int(number) * 2
+                if num > 9:
+                    num -= 9
             sum_of_digits += int(number)
 
         if sum_of_digits % 10 == 0:
@@ -158,7 +158,7 @@ class BankCardProvider:
             card_number += str(10 - sum_of_digits % 10)
         return [card_number, system]
 
-    def _generate_exp(self):
+    def _generate_exp(self) -> str:
         """Generate valid bankcard expiration code based on today's date."""
         year = self.current_year + randint(0, 10)
         if year == self.current_year and self.current_month != 12:
@@ -166,11 +166,11 @@ class BankCardProvider:
         else:
             month = randint(1, 12)
         if month < 10:
-            month = '0' + str(month)
+            month_str = '0' + str(month)
         else:
-            month = str(month)
-        year = str(year)
-        exp = f'{month}/{year}'
+            month_str = str(month)
+        year_str = str(year)
+        exp = f'{month_str}/{year_str}'
         return exp
 
     def __call__(self) -> str:

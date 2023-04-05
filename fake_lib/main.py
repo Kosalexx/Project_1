@@ -2,7 +2,7 @@ from fake_factory import FakeFactory
 import providers
 
 
-def test():
+def test() -> None:
     """Tests 'fake_lib' library"""
     fake_bank = FakeFactory(providers.BankCardProvider(), 3)
     fake_email = FakeFactory(providers.EmailProvider(), 3)
