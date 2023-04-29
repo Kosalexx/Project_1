@@ -1,4 +1,4 @@
-from data_access import CSVData, JSONData
+from data_access import CSVData, JSONData, SQLiteData
 from typing import TYPE_CHECKING
 
 
@@ -11,5 +11,7 @@ def provide_db(db_file: str, db_type: str) -> 'StorageProtocol':
         return CSVData(db_file)
     elif db_type == "json":
         return JSONData(db_file)
+    elif db_type == "sqlite" or db_type == "db":
+        return SQLiteData(db_file)
     else:
         raise ValueError("Unsupported DB type.")
