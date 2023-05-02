@@ -7,6 +7,7 @@ from typing import TYPE_CHECKING
 from business_logic import UsersLogic
 if TYPE_CHECKING:
     from data_access.interfaces import DBGatewayProtocol
+    from business_logic import BusinessLogicProtocol
 
 
 users_menu = (
@@ -31,11 +32,11 @@ def users_ui_menu(db_connector: DBGatewayProtocol) -> None:
         except IncorrectUserInputError as err:
             print(err)
 
-        users_logic = UsersLogic(db_gateway=db_connector)
+        logic: BusinessLogicProtocol = UsersLogic(db_gateway=db_connector)
 
         if user_choice == '1':
             print('__________ List of all users. __________')
-            all_users = users_logic.list_of_all_data()
+            all_users = logic.list_of_all_data()
             for row in all_users:
                 print(row)
             continue
@@ -49,7 +50,7 @@ def users_ui_menu(db_connector: DBGatewayProtocol) -> None:
                 print(err)
                 continue
 
-            result = users_logic.get_concrete_info(value=entered_id)
+            result = logic.get_concrete_info(value=entered_id)
             res_dict = result[0]
             if res_dict.get('Result') is None:
                 for key, value in res_dict.items():
@@ -65,9 +66,9 @@ def users_ui_menu(db_connector: DBGatewayProtocol) -> None:
             except IncorrectIdError as err:
                 print(err)
                 continue
-            check_user_id = users_logic.check_in_data(value=entered_id)
+            check_user_id = logic.check_in_data(value=entered_id)
             if check_user_id:
-                users_logic.delete_value(entered_id)
+                logic.delete_value(entered_id)
                 print(f'Information about user with ID {entered_id} was '
                       f'deleted from the database.')
             else:
@@ -81,7 +82,7 @@ def users_ui_menu(db_connector: DBGatewayProtocol) -> None:
             except IncorrectIdError as err:
                 print(err)
                 continue
-            check_user_id = users_logic.check_in_data(value=entered_id)
+            check_user_id = logic.check_in_data(value=entered_id)
             if check_user_id:
                 new_email = input('Enter new email: ')
                 try:
@@ -89,7 +90,7 @@ def users_ui_menu(db_connector: DBGatewayProtocol) -> None:
                 except IncorrectUserEmailError as err:
                     print(err)
                     continue
-                users_logic.update_value(entered_id, new_email)
+                logic.update_value(entered_id, new_email)
                 print(f'Email of user with ID {entered_id} was updated.')
             else:
                 print('There is no user with the specified ID in the database')
@@ -102,7 +103,7 @@ def users_ui_menu(db_connector: DBGatewayProtocol) -> None:
             except IncorrectIdError as err:
                 print(err)
                 continue
-            check_user_id = users_logic.check_in_data(value=entered_id)
+            check_user_id = logic.check_in_data(value=entered_id)
             if check_user_id:
                 new_phone = input('Enter new phone: ')
                 try:
@@ -110,7 +111,7 @@ def users_ui_menu(db_connector: DBGatewayProtocol) -> None:
                 except IncorrectUserEmailError as err:
                     print(err)
                     continue
-                users_logic.update_value(entered_id, new_phone)
+                logic.update_value(entered_id, new_phone)
                 print(f'Phone of user with ID {entered_id} was updated.')
             else:
                 print('There is no user with the specified ID in the database')

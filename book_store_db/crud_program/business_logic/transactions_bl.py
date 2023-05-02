@@ -17,7 +17,7 @@ class TransactionsLogic:
         data_list = self._dao.get_all_data()
         result_list: list[dict] = []
         for row in data_list:
-            data_dict = dict()
+            data_dict: dict[str, int | str | float] = dict()
             data_dict['ID'] = row.tr_id
             data_dict['User name'] = row.user_name
             data_dict['Bankcard number'] = row.bankcard

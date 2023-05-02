@@ -3,7 +3,7 @@ from .base import BaseDAO
 from data_access.factories import BooksFactory
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from dto import BooksDTO
+    from data_access.dto import BooksDTO
 
 
 class BooksDAO(BaseDAO):
@@ -55,14 +55,9 @@ class BooksDAO(BaseDAO):
             return True
 
     def delete_data(self, value: int) -> None:
+        self._db_gateway.cursor.execute('PRAGMA foreign_keys = ON;')
         self._db_gateway.cursor.execute(
             'DELETE FROM books WHERE book_id = ?;', (value, ))
-        self._db_gateway.connection.commit()
-        self._db_gateway.cursor.execute(
-            'DELETE FROM books_genres WHERE book_id = ?;', (value, ))
-        self._db_gateway.connection.commit()
-        self._db_gateway.cursor.execute(
-            'DELETE FROM books_authors WHERE book_id = ?;', (value, ))
         self._db_gateway.connection.commit()
 
     def update_value(self, integer_id: int, new_value: str) -> None:

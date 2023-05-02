@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 from business_logic import BooksLogic
 if TYPE_CHECKING:
     from data_access.interfaces import DBGatewayProtocol
-
+    from business_logic import BusinessLogicProtocol
 
 books_menu = (
     '\n======================= BOOKS MENU ===========================\n'
@@ -28,7 +28,7 @@ def book_ui_menu(db_connector: DBGatewayProtocol) -> None:
             validate_user_choice(user_choice=user_choice)
         except IncorrectUserInputError as err:
             print(err)
-        logic = BooksLogic(db_gateway=db_connector)
+        logic: BusinessLogicProtocol = BooksLogic(db_gateway=db_connector)
         if user_choice == '1':
             print('__________ List of all books. __________')
             all_data = logic.list_of_all_data()

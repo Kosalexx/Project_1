@@ -3,7 +3,7 @@ from .base import BaseDAO
 from data_access.factories import UsersFactory
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from dto import UsersDTO
+    from data_access.dto import UsersDTO
 
 
 class UsersDAO(BaseDAO):
@@ -45,23 +45,9 @@ class UsersDAO(BaseDAO):
             return True
 
     def delete_data(self, value: int) -> None:
+        self._db_gateway.cursor.execute('PRAGMA foreign_keys = ON;')
         self._db_gateway.cursor.execute(
             'DELETE FROM users WHERE user_id = ?;', (value, ))
-        self._db_gateway.connection.commit()
-        self._db_gateway.cursor.execute(
-            'DELETE FROM profiles WHERE profile_id = ?;', (value, ))
-        self._db_gateway.connection.commit()
-        self._db_gateway.cursor.execute(
-            'DELETE FROM users_roles WHERE user_id = ?;', (value, ))
-        self._db_gateway.connection.commit()
-        self._db_gateway.cursor.execute(
-            'DELETE FROM addresses WHERE user_id = ?;', (value, ))
-        self._db_gateway.connection.commit()
-        self._db_gateway.cursor.execute(
-            'DELETE FROM bankcards WHERE user_id = ?;', (value, ))
-        self._db_gateway.connection.commit()
-        self._db_gateway.cursor.execute(
-            'DELETE FROM baskets WHERE user_id = ?;', (value, ))
         self._db_gateway.connection.commit()
 
     def update_value(self, integer_id: int, new_value: str) -> None:

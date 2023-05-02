@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING
 from business_logic import AuthorsLogic
 if TYPE_CHECKING:
     from data_access.interfaces import DBGatewayProtocol
+    from business_logic import BusinessLogicProtocol
 
 authors_menu = (
     '\n====================== AUTHORS MENU ==========================\n'
@@ -26,7 +27,7 @@ def authors_ui_menu(db_connector: DBGatewayProtocol) -> None:
             validate_user_choice(user_choice=user_choice)
         except IncorrectUserInputError as err:
             print(err)
-        logic = AuthorsLogic(db_gateway=db_connector)
+        logic: BusinessLogicProtocol = AuthorsLogic(db_gateway=db_connector)
         if user_choice == '1':
             print('__________ List of all authors. __________')
             all_data = logic.list_of_all_data()

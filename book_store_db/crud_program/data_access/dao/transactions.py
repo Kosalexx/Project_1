@@ -3,7 +3,7 @@ from .base import BaseDAO
 from data_access.factories import TransactionsFactory
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from dto import TransactionsDTO
+    from data_access.dto import TransactionsDTO
 
 
 class TransactionsDAO(BaseDAO):

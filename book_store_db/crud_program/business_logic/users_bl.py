@@ -17,7 +17,7 @@ class UsersLogic:
         data_list = self._dao.get_all_data()
         result_list: list[dict] = []
         for row in data_list:
-            data_dict = dict()
+            data_dict: dict[str, int | str] = dict()
             data_dict['ID'] = row.user_id
             data_dict['Name'] = row.first_name
             data_dict['Surname'] = row.last_name
@@ -32,7 +32,7 @@ class UsersLogic:
         integer_id: int = int(value)
         for row in data_list:
             if row.user_id == integer_id:
-                data_dict = dict()
+                data_dict: dict[str, int | str | list[str]] = dict()
                 data_dict['ID'] = row.user_id
                 data_dict['Name'] = row.first_name
                 data_dict['Surname'] = row.last_name

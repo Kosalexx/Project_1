@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from interfaces import DBGatewayProtocol
+    from data_access.interfaces import DBGatewayProtocol
 
 
 class BaseDAO:

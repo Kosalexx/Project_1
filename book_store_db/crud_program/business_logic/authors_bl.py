@@ -17,7 +17,7 @@ class AuthorsLogic:
         data_list = self._dao.get_all_data()
         result_list: list[dict] = []
         for row in data_list:
-            data_dict = dict()
+            data_dict: dict[str, int | str] = dict()
             data_dict['ID'] = row.author_id
             data_dict['Name'] = row.first_name
             data_dict['Surname'] = row.last_name
@@ -30,7 +30,7 @@ class AuthorsLogic:
         integer_id: int = int(value)
         for row in data_list:
             if row.author_id == integer_id:
-                data_dict = dict()
+                data_dict: dict[str, int | str] = dict()
                 data_dict['ID'] = row.author_id
                 data_dict['Name'] = row.first_name
                 data_dict['Surname'] = row.last_name
