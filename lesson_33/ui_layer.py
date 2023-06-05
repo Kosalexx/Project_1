@@ -2,7 +2,6 @@ import prettytable
 import art  # type: ignore
 from dao import WeatherDAO
 from dto import WeatherDTO
-from typing import Type
 from config import URL, API_KEY
 
 
@@ -13,7 +12,7 @@ start_menu = ('Chose action from main menu:\n'
               '3 - Exit')
 
 
-def print_table(dto_list: list[Type[WeatherDTO]]) -> None:
+def print_table(dto_list: list[WeatherDTO]) -> None:
     mytable = prettytable.PrettyTable()
     mytable.field_names = ["city", "temp, C", "description", "humidity"]
     errors_list = []
