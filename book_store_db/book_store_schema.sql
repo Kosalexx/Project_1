@@ -31,7 +31,7 @@ CREATE TABLE users_roles (
 );
 CREATE TABLE permissions (
     permission_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT,
+    name TEXT UNIQUE,
     creation_datetime NUMERIC DEFAULT CURRENT_TIMESTAMP,
     update_datetime NUMERIC DEFAULT CURRENT_TIMESTAMP
 );
