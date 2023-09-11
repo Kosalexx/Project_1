@@ -1,12 +1,15 @@
+from typing import Self
+
+
 class Alphabet:
-    def __init__(self, end: str, lower=True) -> None:
+    def __init__(self, end: str, lower: bool = True) -> None:
         self.lower = lower
         if self.lower:
             self.end = ord(end.lower())
         else:
             self.end = ord(end.upper())
 
-    def __iter__(self):
+    def __iter__(self) -> Self:
         if self.lower:
             self.first = ord('a')
         else:
@@ -14,7 +17,7 @@ class Alphabet:
         self.ind_ascii = self.first
         return self
 
-    def __next__(self):
+    def __next__(self) -> str:
         if self.ind_ascii >= self.end + 1:
             raise StopIteration
         result = chr(self.ind_ascii)

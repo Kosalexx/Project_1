@@ -4,15 +4,17 @@ words = ['hi', 'hello', 'привет']
 list_1 = list('list')
 print(numbers, words, list_1)
 # Пустой список
-empty_list_1 = []
-empty_list_2 = list()
+empty_list_1: list = []
+empty_list_2: list = list()
 print(empty_list_1, empty_list_2)
 
 numbers_1 = list(range(5))  # генерация списка из чисел от 0 до 4
-numbers_2 = list(range(0, 10, 2))  # список чисел от 0 до 10(не включительно) с шагом 2
+numbers_2 = list(range(0, 10, 2))  # список чисел от 0 до 10
+# (не включительно) с шагом 2
 print(numbers_1, numbers_2)
 
-list_2 = [i for i in range(1, 51) if i % 2 == 0]  # генерация списка четных числе от 2 до 50
+# генерация списка четных числе от 2 до 50
+list_2 = [i for i in range(1, 51) if i % 2 == 0]
 print(list_2)
 print(len(list_2))  # печать длины списка
 
@@ -51,8 +53,10 @@ print()
 # методы списков
 words_1.insert(0, 'asdqq')  # вставляем значение по индексу
 print(words_1)
-print(words_1.pop(1))  # удаляет элемент из списка по указанному индексу и возвращает его значение
-words_1.remove('Python')  # удаляет первый лемент в списке, имеющий переданный в метод значение
+print(words_1.pop(1))  # удаляет элемент из списка по указанному индексу
+# и возвращает его значение
+words_1.remove('Python')  # удаляет первый лемент в списке,
+# имеющий переданный в метод значение
 print(words_1)
 words_1.clear()  # очищает список
 print(words_1)

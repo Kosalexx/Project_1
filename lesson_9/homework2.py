@@ -8,7 +8,7 @@ from cache_decorator import cache_deco
 
 
 @cache_deco
-def find_by_name(name: str) -> list:
+def find_by_name(name: str) -> list | str:
     """ Finds a company by name in the database. """
 
     answer = []
@@ -17,14 +17,16 @@ def find_by_name(name: str) -> list:
         file_reader = csv.DictReader(r_file, delimiter=',')
 
         for row in file_reader:
-            if name in row.get('Name').lower():
-                answer.append({
-                    "Name": row.get("Name"),
-                    "Symbol": row.get("Symbol"),
-                    "Sector": row.get("Sector"),
-                    "Stock Price": row.get("Price")
-                }
-                )
+            if row.get('Name') is not None:
+                exist_mame: str = row['Name']
+                if name in exist_mame.lower():
+                    answer.append({
+                        "Name": row.get("Name"),
+                        "Symbol": row.get("Symbol"),
+                        "Sector": row.get("Sector"),
+                        "Stock Price": row.get("Price")
+                    }
+                    )
     if len(answer) == 0:
         return "There aren't any companies that match the request."
     else:
@@ -32,7 +34,7 @@ def find_by_name(name: str) -> list:
 
 
 @cache_deco
-def find_by_symbol(symbol: str) -> list:
+def find_by_symbol(symbol: str) -> list | str:
     """ Finds a company by symbol in the database. """
 
     final_list = []
@@ -64,27 +66,32 @@ def companies_by_sector(sector: str) -> list:
     with open("sp500.csv", encoding='utf-8') as r_file:
         file_reader = csv.DictReader(r_file, delimiter=',')
         for row in file_reader:
-            if sector.lower() in row.get('Sector').lower():
-                final_list.append(row.get('Name'))
-                if row.get('Sector') not in correct_sector_name:
-                    correct_sector_name.append(row.get('Sector'))
+            if row.get('Sector') is not None:
+                exist_sector: str = row['Sector']
+                if sector.lower() in exist_sector.lower():
+                    final_list.append(row.get('Name'))
+                    if row.get('Sector') not in correct_sector_name:
+                        correct_sector_name.append(row.get('Sector'))
 
     if len(final_list) >= 1 and len(correct_sector_name) == 1:
         print(f'You chose sector {correct_sector_name}:')
-        return final_list
+        result = final_list
     else:
-        companies_by_sector(input('Enter correct name of sector! '))
+        result = companies_by_sector(input('Enter correct name of sector! '))
+    return result
 
 
 @cache_deco
 def calc_average_price() -> float:
-    counter_of_companies = 0
-    total_price = 0
+    counter_of_companies: int = 0
+    total_price: float = 0.0
     with open("sp500.csv", encoding='utf-8') as r_file:
         file_reader = csv.DictReader(r_file, delimiter=',')
         for row in file_reader:
             counter_of_companies += 1
-            total_price += float(row.get('Price'))
+            if row.get('Price') is not None:
+                exist_price: float = float(row['Price'])
+            total_price += exist_price
     average_price = round((total_price / counter_of_companies), 2)
     return average_price
 
@@ -97,7 +104,8 @@ def top_ten_companies() -> list:
     with open("sp500.csv", encoding='utf-8') as r_file:
         file_reader = csv.DictReader(r_file, delimiter=',')
         for row in file_reader:
-            price_1 = float(row.get('Price'))
+            if row.get('Price') is not None:
+                price_1 = float(row['Price'])
             name_1 = row.get('Name')
             tuple_price = (name_1, price_1)
             final_list.append(tuple_price)
@@ -151,8 +159,8 @@ while flag:
         print(result)
         flag = maybe_stop()
     elif choice == "4":
-        result = calc_average_price()
-        print(f'Average price: {result}')
+        rest = calc_average_price()
+        print(f'Average price: {rest}')
         flag = maybe_stop()
     elif choice == "5":
         result = top_ten_companies()

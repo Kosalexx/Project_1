@@ -1,17 +1,21 @@
-""" Decorator, that caches functions. """
-
-storage = {}
+from typing import Callable, TypeVar, ParamSpec
 
 
-def cache_deco(func):
+P = ParamSpec('P')
+RT = TypeVar('RT')
+storage: dict = {}
+
+
+def cache_deco(func: Callable[P, RT]) -> Callable[P, RT]:
+    """ Decorator, that caches functions. """
     global storage
 
-    def inner(*args):
-        if storage.get(str(args)) is None:
-            result = func(*args)
-            storage[str(args)] = result
+    def inner(*args: P.args, **kwargs: P.kwargs) -> RT:
+        if storage.get(tuple(args)) is None:
+            result: RT = func(*args, **kwargs)
+            storage[tuple(args)] = result
             return result
         else:
-            return storage[str(args)]
-
+            result = storage[tuple(args)]
+            return result
     return inner
