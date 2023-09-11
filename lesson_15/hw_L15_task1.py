@@ -1,16 +1,24 @@
 class Contact:
-    def __init__(self, email, phone, first_name, last_name) -> None:
+    def __init__(
+            self,
+            email: str,
+            phone: str,
+            first_name: str,
+            last_name: str) -> None:
         self.email = email
         self.phone = phone
         self.first_name = first_name
         self.last_name = last_name
 
     @property
-    def email(self):
+    def email(self) -> str:
         return self._email
 
     @email.setter
-    def email(self, value):
+    def email(
+        self,
+        value: str
+    ) -> None:
         email_split = value.split('@')
         if len(email_split) != 2:
             raise ValueError('Email must contain one "@" symbol.')
@@ -20,11 +28,11 @@ class Contact:
         self._email = value
 
     @property
-    def phone(self):
+    def phone(self) -> str:
         return self._phone
 
     @phone.setter
-    def phone(self, value):
+    def phone(self, value: str) -> None:
         if len(value) != 13:
             raise ValueError('Phone length must be 13.')
         if value[0] != '+':
@@ -34,29 +42,28 @@ class Contact:
                 raise ValueError('Unsupportable phone provider.')
         self._phone = value
 
-    def _validate_name(self, value):
+    def _validate_name(self, value: str) -> None:
         if not value[0].isupper():
             raise ValueError("First name and Last name must start from "
                              "capital letter.")
         if len(value) not in range(5, 15):
             raise ValueError("Length of First name and Last name must be in "
                              "range (5, 15).")
-        return value
 
     @property
-    def first_name(self):
+    def first_name(self) -> str:
         return self._first_name
 
     @first_name.setter
-    def first_name(self, value):
+    def first_name(self, value: str) -> None:
         self._validate_name(value)
         self._first_name = value
 
     @property
-    def last_name(self):
+    def last_name(self) -> str:
         return self._last_name
 
     @last_name.setter
-    def last_name(self, value):
+    def last_name(self, value: str) -> None:
         self._validate_name(value)
         self._last_name = value

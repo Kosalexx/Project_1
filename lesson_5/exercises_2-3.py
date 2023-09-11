@@ -1,12 +1,12 @@
-def is_digit(num):  # проверка что введено именно число
+def is_digit(num: str) -> int:  # проверка что введено именно число
     if str(num).isdigit():  # проверяем что введено именно число
-        num = int(num)  # приводим число к int
-        return num
+        new_num = int(num)  # приводим число к int
+        return new_num
     else:
-        print('Введите целое число!')
+        print('Введите целое число! ')
         num = input()
-        num = is_digit(num)
-        return num  # рекурсия пока не будет введено целое число
+        new_num = is_digit(num)
+        return new_num  # рекурсия пока не будет введено целое число
 
 
 # Основной цикл программы.
@@ -18,7 +18,7 @@ while True:
     while True:
         if age_2 <= 0:
             print('Ошибка, повторите ввод.')
-            age = int(input('Введите коректный возраст: '))
+            age = input('Введите коректный возраст: ')
             age_2 = is_digit(age)
             continue
         elif 0 <= age_2 < 10:

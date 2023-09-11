@@ -1,18 +1,21 @@
+from typing import Any, Optional
+
+
 class Stack:
     def __init__(self) -> None:
-        self.stack = []
+        self.stack: list = []
 
-    def push(self, elements):
+    def push(self, elements: Any) -> None:
         self.stack.append(elements)
 
-    def pop(self):
+    def pop(self) -> Any:
         deleted_item = self.stack.pop()
         return deleted_item
 
-    def is_empty(self):
+    def is_empty(self) -> bool:
         return self.stack == []
 
-    def peek(self):
+    def peek(self) -> Optional[Any]:
         if self.stack == []:
             return None
         else:

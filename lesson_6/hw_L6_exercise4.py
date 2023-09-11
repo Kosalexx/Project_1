@@ -1,7 +1,6 @@
-""" Задание 4. Сделать функцию, которая будет вызываться из генератора списков и по запросу
-к ней отдавать текущее время с задержкой в 1 сек. Количество элементов нового списка n
-запрашивать у пользователя."""
-
+""" Задание 4. Сделать функцию, которая будет вызываться из генератора
+списков и по запросу к ней отдавать текущее время с задержкой в 1 сек.
+Количество элементов нового списка n запрашивать у пользователя."""
 from datetime import datetime
 from time import sleep
 
@@ -17,9 +16,9 @@ def datetime_plus_sec() -> str:
 def datetime_plus_sec_in_range(n: int) -> list[str]:
     """ Возвращает список из дат и времён с разницей в 1 секунду
     в количестве n элементов."""
-    date_list = [datetime_plus_sec() in range(n)]
+    date_list: list[str] = [datetime_plus_sec() for _ in range(n)]
     return date_list
 
 
-num = int(input())  # ввод числа от пользователя, определяющего длину списка
-print(datetime_plus_sec_in_range(num))  # вывод списка пользователю
+num = int(input())
+print(datetime_plus_sec_in_range(num))

@@ -1,19 +1,7 @@
-""" ЗАДАНИЕ 4.
-Написать функцию, которая принимает n-ое количество координат точек.
-И в ответ возвращает длину маршрута между ними.
-Каждая координата представлена кортежем, состоящим из двух объектов типа int.
-Длина отрезка: https://www.calc.ru/Formula-Dliny-Otrezka.html
-Примеры использования функции:
-result = distance((1, 1), (1, 2), (3, 3))
-print(result) # выведет 1
-
-В общем виде:
-result = distance((1, 1), (2, 3), (5, 8), ..., (xn, yn)). """
-
 from math import sqrt
 
 
-def distance(point_1: tuple, point_2: tuple, *points: tuple) -> float:
+def distance(point_1: tuple, point_2: tuple, *points: tuple) -> str:
     """Returns the distance between points with passed coordinates. """
 
     x1, y1 = point_1[0], point_1[1]

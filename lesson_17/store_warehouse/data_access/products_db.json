@@ -1,0 +1,118 @@
+[
+  {
+    "id": 1,
+    "category": "phones",
+    "name": "inphone 13",
+    "price": "11.0",
+    "color": "blue",
+    "screen_size": "14",
+    "quantity": 3,
+    "created_at": 1679921344.148284,
+    "updated_at": 1680364862.424484
+  },
+  {
+    "id": 3,
+    "category": "phones",
+    "name": "samsung fold",
+    "price": "15.0",
+    "color": "blue",
+    "screen_size": "13",
+    "quantity": 11,
+    "created_at": 1680009511.210081,
+    "updated_at": 1680364862.42541
+  },
+  {
+    "id": 4,
+    "category": "phones",
+    "name": "xiaomi",
+    "price": "9.0",
+    "color": "blue",
+    "screen_size": "10",
+    "quantity": 17,
+    "created_at": 1680009552.840359,
+    "updated_at": 1680363348.012615
+  },
+  {
+    "id": 5,
+    "category": "cars",
+    "name": "bmw",
+    "price": "150.0",
+    "color": "black",
+    "model": "e39",
+    "quantity": 16,
+    "created_at": 1680009598.355407,
+    "updated_at": 1680009950.658726
+  },
+  {
+    "id": 6,
+    "category": "tv",
+    "name": "lg",
+    "price": "30.0",
+    "model": "e34lol40",
+    "color": "black",
+    "screen_size": "55",
+    "matrix": "ips",
+    "quantity": 21,
+    "created_at": 1680009687.693917,
+    "updated_at": 1680009908.783084
+  },
+  {
+    "id": 7,
+    "category": "tv",
+    "name": "samsung",
+    "price": "69.0",
+    "model": "ls55omd345",
+    "color": "white",
+    "screen_size": "55",
+    "matrix": "oled",
+    "quantity": 27,
+    "created_at": 1680009736.111545,
+    "updated_at": 1680363348.01312
+  },
+  {
+    "id": 2,
+    "category": "cars",
+    "name": "fv",
+    "price": "100.0",
+    "color": "red",
+    "model": "gol",
+    "quantity": 38,
+    "created_at": 1679935823.837316,
+    "updated_at": 1680364862.425007
+  },
+  {
+    "id": 0,
+    "category": "phones",
+    "name": "iphone 14",
+    "price": "10.0",
+    "color": "red",
+    "screen_size": "16",
+    "quantity": 23,
+    "created_at": 1679920611.0906181,
+    "updated_at": 1680009908.781436
+  },
+  {
+    "id": 8,
+    "category": "headphones",
+    "name": "logitech",
+    "price": "10.3",
+    "size": "11",
+    "color": "blue",
+    "model": "g435",
+    "quantity": 24,
+    "created_at": 1680362766.042586,
+    "updated_at": 1680363652.9313831
+  },
+  {
+    "id": 9,
+    "category": "some_cat",
+    "name": "myname",
+    "price": "1034",
+    "some_par1": "s",
+    "some_par2": "d",
+    "some_par3": "f",
+    "quantity": 9,
+    "created_at": 1680364808.77188,
+    "updated_at": 1680364862.4235678
+  }
+]
