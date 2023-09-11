@@ -1,2 +1,2 @@
-DB_FILE = 'sp500.json'
-DB_TYPE = 'json'
+DB_FILE = 'sp500.db'
+DB_TYPE = 'db'

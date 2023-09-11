@@ -23,3 +23,6 @@ class StorageProtocol(Protocol):
             mode: str = "a"
             ) -> None:
         raise NotImplementedError
+
+    def delete_all_data(self) -> None:
+        raise NotImplementedError

@@ -145,7 +145,8 @@ def delete_company(
 
 
 def truncate_all_data(db_connector: 'StorageProtocol') -> None:
-    db_connector.write_to_database(data=[], mode='w')
+    """Deletes all data from database."""
+    db_connector.delete_all_data()
 
 
 def generate_new_data(num: str,
