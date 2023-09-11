@@ -1,0 +1,51 @@
+[
+  {
+    "category": "phones",
+    "parameters": [
+      "name",
+      "price",
+      "color",
+      "screen_size"
+    ]
+  },
+  {
+    "category": "cars",
+    "parameters": [
+      "name",
+      "price",
+      "color",
+      "model"
+    ]
+  },
+  {
+    "category": "tv",
+    "parameters": [
+      "name",
+      "price",
+      "model",
+      "color",
+      "screen_size",
+      "matrix"
+    ]
+  },
+  {
+    "category": "headphones",
+    "parameters": [
+      "name",
+      "price",
+      "size",
+      "color",
+      "model"
+    ]
+  },
+  {
+    "category": "some_cat",
+    "parameters": [
+      "name",
+      "price",
+      "some_par1",
+      "some_par2",
+      "some_par3"
+    ]
+  }
+]
