@@ -1,11 +1,13 @@
 from time import time
-from typing import Type, TypeVar, Any, Callable
+from typing import Union, TypeVar, Callable, ParamSpec, TypeAlias
 
+P = ParamSpec('P')
+RT = TypeVar('RT')
 
-simple_storage: dict[tuple,] = {}
-lru_storage: dict[tuple,] = {}
-fifo_storage: dict[tuple,] = {}
-ttl_storage: dict[tuple,] = {}
+simple_storage: dict = {}
+lru_storage: dict = {}
+fifo_storage: dict = {}
+ttl_storage: dict = {}
 
 
 class SimpleCache:
@@ -13,14 +15,14 @@ class SimpleCache:
 
     It has no limitations on the size and time of the information storage.
     """
-    def __call__(self, func: Callable[[Any], Any]) -> Any:
-        def wrapper(*args: Any):
+    def __call__(self, func: Callable[P, RT]) -> Callable[P, RT]:
+        def wrapper(*args: P.args, **kwargs: P.kwargs) -> RT:
             cache_key: tuple = tuple(args)
             if simple_storage.get(cache_key) is None:
-                result: Any = func(*args)
+                result: RT = func(*args, **kwargs)
                 simple_storage[cache_key] = result
             else:
-                result: Any = simple_storage[cache_key][0]
+                result = simple_storage[cache_key][0]
             return result
         return wrapper
 
@@ -40,28 +42,30 @@ class FIFOCache:
     :raises ValueError: if 'max_size' of storage not integer.
     """
     def __init__(self, max_size: int = 10) -> None:
-        self.max_size = max_size
+        self.max_size: int = max_size
 
     @property
-    def max_size(self):
+    def max_size(self) -> int:
         return self._max_size
 
     @max_size.setter
-    def max_size(self, value):
+    def max_size(self, value: int) -> None:
         if not isinstance(value, int):
             raise ValueError("Max size of the storage must be integer.")
         self._max_size = value
 
-    def __call__(self, func: Callable[[Any], Any]) -> Any:
-        def wrapper(*args: Any):
+    def __call__(self, func: Callable[P, RT]) -> Callable[P, RT]:
+        def wrapper(*args: P.args, **kwargs: P.kwargs) -> RT:
             cache_key: tuple = tuple(args)
             current_length: int = len(fifo_storage)
             if fifo_storage.get(cache_key) is not None:
-                result: Any = fifo_storage.get(cache_key)[0]
+                tuple_res: tuple[RT, float] = fifo_storage[cache_key]
+                result = tuple_res[0]
             else:
                 if current_length < self.max_size:
-                    result: Any = func(*args)
-                    fifo_storage[cache_key] = (result, time())
+                    result = func(*args)
+                    tuple_res = (result, time())
+                    fifo_storage[cache_key] = tuple_res
                 else:
                     max_value: float = time()
                     for keys, values in fifo_storage.items():
@@ -69,7 +73,7 @@ class FIFOCache:
                             key = keys
                             max_value = values[1]
                     fifo_storage.pop(key)
-                    result: Any = func(*args)
+                    result = func(*args)
                     fifo_storage[cache_key] = (result, time())
             return result
         return wrapper
@@ -97,27 +101,28 @@ class LRUCache:
         self.max_size = max_size
 
     @property
-    def max_size(self):
+    def max_size(self) -> int:
         return self._max_size
 
     @max_size.setter
-    def max_size(self, value):
+    def max_size(self, value: int) -> None:
         if not isinstance(value, int):
             raise ValueError("Max size of the storage must be integer.")
         self._max_size = value
 
-    def __call__(self, func: Callable[[Any], Any]) -> Any:
-        def wrapper(*args: Any):
+    def __call__(self, func: Callable[P, RT]) -> Callable[P, RT]:
+        def wrapper(*args: P.args, **kwargs: P.kwargs) -> RT:
             cache_key: tuple = tuple(args)
             current_length: int = len(lru_storage)
             if lru_storage.get(cache_key) is not None:
-                result: Any = lru_storage.get(cache_key)[0]
+                tuple_res: tuple[RT, float] = lru_storage[cache_key]
+                result: RT = tuple_res[0]
                 lru_storage.pop(cache_key)
-                new_val = (result, time())
+                new_val: tuple[RT, float] = (result, time())
                 lru_storage[cache_key] = new_val
             else:
                 if current_length < self.max_size:
-                    result: Any = func(*args)
+                    result = func(*args)
                     lru_storage[cache_key] = (result, time())
                 else:
                     max_value = time()
@@ -156,41 +161,42 @@ class TTLCache:
         self.ttl = ttl
 
     @property
-    def max_size(self):
+    def max_size(self) -> int:
         return self._max_size
 
     @max_size.setter
-    def max_size(self, value):
+    def max_size(self, value: int) -> None:
         if not isinstance(value, int):
             raise ValueError("Max size of the storage must be integer.")
         self._max_size = value
 
     @property
-    def ttl(self):
+    def ttl(self) -> int:
         return self._ttl
 
     @ttl.setter
-    def ttl(self, value):
+    def ttl(self, value: int) -> None:
         if not isinstance(value, int):
             raise ValueError("'Time to live' value must be integer.")
         self._ttl = value
 
-    def __call__(self, func: Callable[[Any], Any]) -> Any:
-        def wrapper(*args: Any):
+    def __call__(self, func: Callable[P, RT]) -> Callable[P, RT]:
+        def wrapper(*args: P.args, **kwargs: P.kwargs) -> RT:
             cache_key: tuple = tuple(args)
             current_length: int = len(ttl_storage)
             if ttl_storage.get(cache_key) is not None:
-                time_of_insert: float = ttl_storage.get(cache_key)[1]
+                tuple_res: tuple[RT, float] = ttl_storage[cache_key]
+                time_of_insert: float = ttl_storage[cache_key][1]
                 if (time() - time_of_insert) > self.ttl:
-                    result: Any = func(*args)
+                    result: RT = func(*args, **kwargs)
                 else:
-                    result: Any = ttl_storage.get(cache_key)[0]
+                    result = tuple_res[0]
                 ttl_storage.pop(cache_key)
-                new_val = (result, time())
+                new_val: tuple[RT, float] = (result, time())
                 ttl_storage[cache_key] = new_val
             else:
                 if current_length < self.max_size:
-                    result: Any = func(*args)
+                    result = func(*args)
                     ttl_storage[cache_key] = (result, time())
                 else:
                     max_value = time()
@@ -205,8 +211,7 @@ class TTLCache:
         return wrapper
 
 
-existing_cache = (SimpleCache, FIFOCache, LRUCache, TTLCache)
-Cache_types = TypeVar("Cache_types", *existing_cache)
+Existing_cache: TypeAlias = Union[SimpleCache, FIFOCache, LRUCache, TTLCache]
 
 
 class Cached:
@@ -216,31 +221,32 @@ class Cached:
     Available decorators: SimpleCache, FIFOCache, LRUCache, TTLCache.
 
     :param cache: object of one of available decorator classes
-    :type cache: Callable[[Type[Cache_types]], Any]
+    :type cache: Existing_cache
 
     :raises ValueError: if object of an unsupported decorator class is passed.
     """
-    def __init__(self, cache: Callable[[Type[Cache_types]], Any]) -> None:
+    def __init__(self, cache: Existing_cache) -> None:
         self.cache = cache
 
-    def _validate_cache(self, value):
-        if not isinstance(value, existing_cache):
+    def _validate_cache(self, value: Existing_cache) -> None:
+        if not isinstance(value, (SimpleCache, LRUCache,
+                                  FIFOCache, TTLCache)):
             raise ValueError("Non-existent caching provider. Possible "
                              "options: SimpleCache, LRUCache, FIFOCache, "
                              "TTLCache.")
 
     @property
-    def cache(self):
+    def cache(self) -> Existing_cache:
         return self._cache
 
     @cache.setter
     def cache(
             self,
-            value: Callable[[Type[Cache_types]], Any]
-            ) -> Callable[[Type[Cache_types]], Any]:
+            value: Existing_cache
+            ) -> None:
         self._validate_cache(value)
         self._cache = value
 
-    def __call__(self, func: Callable[[Any], Any]) -> Any:
-        result = self.cache(func)
+    def __call__(self, func: Callable[P, RT]) -> Callable[P, RT]:
+        result: Callable[P, RT] = self.cache(func)
         return result
